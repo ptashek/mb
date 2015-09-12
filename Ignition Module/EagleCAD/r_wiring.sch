@@ -21909,14 +21909,14 @@ http://dangerousprototypes.com</description>
 <variantdefs>
 </variantdefs>
 <classes>
-<class number="0" name="default" width="0.254" drill="0">
-<clearance class="0" value="0.127"/>
+<class number="0" name="default" width="1.016" drill="0">
+<clearance class="0" value="0.254"/>
 </class>
-<class number="1" name="power" width="0.635" drill="0">
-<clearance class="1" value="0.254"/>
+<class number="1" name="power" width="1.524" drill="0">
+<clearance class="1" value="0.381"/>
 </class>
-<class number="2" name="high-power" width="1.27" drill="0">
-<clearance class="2" value="0.381"/>
+<class number="2" name="high-power" width="2.032" drill="0">
+<clearance class="2" value="0.508"/>
 </class>
 </classes>
 <parts>
