@@ -21995,8 +21995,8 @@ Transistorized Ignition Module</text>
 <instance part="R15" gate="G$1" x="154.94" y="25.4" rot="R90">
 <attribute name="VOLTAGE_RATING" x="154.94" y="25.4" size="1.778" layer="96" rot="R90" display="off"/>
 </instance>
-<instance part="SUPPLY1" gate="GND" x="-7.62" y="53.34"/>
-<instance part="C1" gate="G$1" x="193.04" y="83.82"/>
+<instance part="SUPPLY1" gate="GND" x="-7.62" y="55.88"/>
+<instance part="C1" gate="G$1" x="193.04" y="86.36"/>
 <instance part="C5" gate="G$1" x="76.2" y="55.88" rot="R270"/>
 <instance part="C3" gate="G$1" x="15.24" y="7.62" rot="R180"/>
 <instance part="C8" gate="G$1" x="182.88" y="15.24" rot="R90"/>
@@ -22005,14 +22005,14 @@ Transistorized Ignition Module</text>
 <instance part="R22" gate="G$1" x="172.72" y="81.28" rot="R90"/>
 <instance part="R19" gate="G$1" x="139.7" y="35.56" rot="R180"/>
 <instance part="T4" gate="G$1" x="152.4" y="68.58"/>
-<instance part="D1" gate="G$1" x="205.74" y="93.98" rot="R180"/>
-<instance part="D8" gate="G$1" x="213.36" y="81.28" rot="R90"/>
+<instance part="D1" gate="G$1" x="203.2" y="93.98" rot="R180"/>
+<instance part="D8" gate="G$1" x="213.36" y="86.36" rot="R90"/>
 <instance part="D7" gate="G$1" x="200.66" y="2.54" rot="R90"/>
 <instance part="D6" gate="G$1" x="127" y="50.8" rot="R270"/>
 <instance part="D5" gate="G$1" x="27.94" y="10.16" rot="R90"/>
 <instance part="D4" gate="G$1" x="-5.08" y="25.4" rot="R180"/>
 <instance part="D3" gate="G$1" x="27.94" y="48.26" rot="R270"/>
-<instance part="ZD4" gate="G$1" x="172.72" y="35.56" rot="R90"/>
+<instance part="ZD4" gate="G$1" x="172.72" y="43.18" rot="R90"/>
 <instance part="ZD2" gate="G$1" x="73.66" y="35.56" rot="R180"/>
 <instance part="ZD3" gate="G$1" x="127" y="7.62" rot="R90"/>
 <instance part="ZD1" gate="G$1" x="-7.62" y="63.5" rot="R90"/>
@@ -22029,10 +22029,10 @@ Transistorized Ignition Module</text>
 <instance part="R10" gate="G$1" x="96.52" y="63.5" rot="R270"/>
 <instance part="R13" gate="G$1" x="111.76" y="25.4" rot="R270"/>
 <instance part="R12" gate="G$1" x="111.76" y="81.28" rot="R270"/>
-<instance part="R17" gate="G$1" x="172.72" y="49.18654375" rot="R90"/>
+<instance part="R17" gate="G$1" x="172.72" y="59.34654375" rot="R90"/>
 <instance part="R20" gate="G$1" x="127" y="81.28" rot="R270"/>
 <instance part="R14" gate="G$1" x="127" y="25.4" rot="R270"/>
-<instance part="R21" gate="G$1" x="203.2" y="71.12"/>
+<instance part="R21" gate="G$1" x="203.2" y="78.74"/>
 <instance part="C6" gate="G$1" x="96.52" y="2.54"/>
 <instance part="C4" gate="G$1" x="83.82" y="35.56" rot="R90"/>
 <instance part="C2" gate="G$1" x="2.54" y="66.04"/>
@@ -22041,13 +22041,13 @@ Transistorized Ignition Module</text>
 <instance part="31" gate="G$1" x="220.98" y="-5.08" rot="R180"/>
 <instance part="7" gate="G$1" x="-35.56" y="25.4"/>
 <instance part="15" gate="G$1" x="220.98" y="93.98" rot="R180"/>
-<instance part="16" gate="G$1" x="220.98" y="55.88" rot="R180"/>
+<instance part="16" gate="G$1" x="220.98" y="68.58" rot="R180"/>
 <instance part="TD" gate="G$1" x="137.16" y="60.96" rot="R180"/>
 <instance part="31D" gate="G$1" x="-35.56" y="-5.08"/>
 <instance part="SUPPLY3" gate="GND" x="193.04" y="-7.62"/>
-<instance part="SUPPLY4" gate="GND" x="193.04" y="63.5"/>
+<instance part="SUPPLY4" gate="GND" x="193.04" y="76.2"/>
 <instance part="C7" gate="G$1" x="210.82" y="7.62"/>
-<instance part="ZD5" gate="G$1" x="172.72" y="23.415928125" rot="R90"/>
+<instance part="ZD5" gate="G$1" x="172.72" y="25.955928125" rot="R90"/>
 </instances>
 <busses>
 </busses>
@@ -22110,7 +22110,6 @@ Transistorized Ignition Module</text>
 <segment>
 <pinref part="SUPPLY1" gate="GND" pin="GND"/>
 <pinref part="ZD1" gate="G$1" pin="A"/>
-<wire x1="-7.62" y1="55.88" x2="-7.62" y2="58.42" width="0.1524" layer="91"/>
 <pinref part="C2" gate="G$1" pin="-"/>
 <wire x1="-7.62" y1="58.42" x2="-7.62" y2="60.96" width="0.1524" layer="91"/>
 <wire x1="2.54" y1="60.96" x2="2.54" y2="58.42" width="0.1524" layer="91"/>
@@ -22120,11 +22119,10 @@ Transistorized Ignition Module</text>
 <segment>
 <pinref part="R21" gate="G$1" pin="1"/>
 <pinref part="C1" gate="G$1" pin="2"/>
-<wire x1="198.12" y1="71.12" x2="193.04" y2="71.12" width="0.1524" layer="91"/>
-<wire x1="193.04" y1="71.12" x2="193.04" y2="78.74" width="0.1524" layer="91"/>
+<wire x1="198.12" y1="78.74" x2="193.04" y2="78.74" width="0.1524" layer="91"/>
+<wire x1="193.04" y1="78.74" x2="193.04" y2="81.28" width="0.1524" layer="91"/>
 <pinref part="SUPPLY4" gate="GND" pin="GND"/>
-<wire x1="193.04" y1="71.12" x2="193.04" y2="66.04" width="0.1524" layer="91"/>
-<junction x="193.04" y="71.12"/>
+<junction x="193.04" y="78.74"/>
 </segment>
 <segment>
 <wire x1="-27.94" y1="27.94" x2="-22.86" y2="27.94" width="0.1524" layer="91"/>
@@ -22318,8 +22316,8 @@ Transistorized Ignition Module</text>
 <wire x1="154.94" y1="93.98" x2="172.72" y2="93.98" width="0.1524" layer="91"/>
 <pinref part="C1" gate="G$1" pin="1"/>
 <wire x1="172.72" y1="93.98" x2="193.04" y2="93.98" width="0.1524" layer="91"/>
-<wire x1="193.04" y1="93.98" x2="203.2" y2="93.98" width="0.1524" layer="91"/>
-<wire x1="193.04" y1="86.36" x2="193.04" y2="93.98" width="0.1524" layer="91"/>
+<wire x1="193.04" y1="93.98" x2="200.66" y2="93.98" width="0.1524" layer="91"/>
+<wire x1="193.04" y1="88.9" x2="193.04" y2="93.98" width="0.1524" layer="91"/>
 <pinref part="R22" gate="G$1" pin="2"/>
 <wire x1="172.72" y1="93.98" x2="172.72" y2="86.36" width="0.1524" layer="91"/>
 <junction x="172.72" y="93.98"/>
@@ -22366,31 +22364,31 @@ Transistorized Ignition Module</text>
 <segment>
 <pinref part="D1" gate="G$1" pin="A"/>
 <pinref part="15" gate="G$1" pin="P"/>
-<wire x1="208.28" y1="93.98" x2="213.36" y2="93.98" width="0.1524" layer="91"/>
+<wire x1="205.74" y1="93.98" x2="213.36" y2="93.98" width="0.1524" layer="91"/>
 <pinref part="D8" gate="G$1" pin="C"/>
 <wire x1="213.36" y1="93.98" x2="218.44" y2="93.98" width="0.1524" layer="91"/>
-<wire x1="213.36" y1="83.82" x2="213.36" y2="93.98" width="0.1524" layer="91"/>
+<wire x1="213.36" y1="88.9" x2="213.36" y2="93.98" width="0.1524" layer="91"/>
 <junction x="213.36" y="93.98"/>
 </segment>
 </net>
 <net name="N$20" class="0">
 <segment>
 <pinref part="D8" gate="G$1" pin="A"/>
-<wire x1="213.36" y1="78.74" x2="213.36" y2="71.12" width="0.1524" layer="91"/>
+<wire x1="213.36" y1="83.82" x2="213.36" y2="78.74" width="0.1524" layer="91"/>
 <pinref part="R21" gate="G$1" pin="2"/>
-<wire x1="213.36" y1="71.12" x2="208.28" y2="71.12" width="0.1524" layer="91"/>
+<wire x1="213.36" y1="78.74" x2="208.28" y2="78.74" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="N$22" class="2">
 <segment>
 <pinref part="R22" gate="G$1" pin="1"/>
-<wire x1="172.72" y1="76.2" x2="172.72" y2="55.88" width="0.1524" layer="91"/>
-<wire x1="172.72" y1="55.88" x2="193.04" y2="55.88" width="0.1524" layer="91"/>
+<wire x1="172.72" y1="76.2" x2="172.72" y2="68.58" width="0.1524" layer="91"/>
+<wire x1="172.72" y1="68.58" x2="193.04" y2="68.58" width="0.1524" layer="91"/>
 <pinref part="16" gate="G$1" pin="P"/>
-<junction x="172.72" y="55.88"/>
+<junction x="172.72" y="68.58"/>
 <pinref part="R17" gate="G$1" pin="2"/>
-<wire x1="193.04" y1="55.88" x2="218.44" y2="55.88" width="0.1524" layer="91"/>
-<wire x1="172.72" y1="55.88" x2="172.72" y2="54.26654375" width="0.1524" layer="91"/>
+<wire x1="193.04" y1="68.58" x2="218.44" y2="68.58" width="0.1524" layer="91"/>
+<wire x1="172.72" y1="68.58" x2="172.72" y2="64.42654375" width="0.1524" layer="91"/>
 <pinref part="C8" gate="G$1" pin="2"/>
 <pinref part="C7" gate="G$1" pin="1"/>
 <wire x1="187.96" y1="15.24" x2="193.04" y2="15.24" width="0.1524" layer="91"/>
@@ -22403,29 +22401,29 @@ Transistorized Ignition Module</text>
 <wire x1="200.66" y1="5.08" x2="200.66" y2="15.24" width="0.1524" layer="91"/>
 <junction x="193.04" y="15.24"/>
 <junction x="200.66" y="15.24"/>
-<wire x1="193.04" y1="55.88" x2="193.04" y2="15.24" width="0.1524" layer="91"/>
+<wire x1="193.04" y1="68.58" x2="193.04" y2="15.24" width="0.1524" layer="91"/>
 <junction x="193.04" y="15.24"/>
-<junction x="193.04" y="55.88"/>
+<junction x="193.04" y="68.58"/>
 </segment>
 </net>
 <net name="N$21" class="0">
 <segment>
 <pinref part="R17" gate="G$1" pin="1"/>
 <pinref part="ZD4" gate="G$1" pin="C"/>
-<wire x1="172.72" y1="44.10654375" x2="172.72" y2="38.1" width="0.1524" layer="91"/>
+<wire x1="172.72" y1="54.26654375" x2="172.72" y2="45.72" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="N$23" class="0">
 <segment>
 <pinref part="ZD4" gate="G$1" pin="A"/>
 <pinref part="ZD5" gate="G$1" pin="C"/>
-<wire x1="172.72" y1="33.02" x2="172.72" y2="25.955928125" width="0.1524" layer="91"/>
+<wire x1="172.72" y1="40.64" x2="172.72" y2="28.495928125" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="N$25" class="0">
 <segment>
 <pinref part="ZD5" gate="G$1" pin="A"/>
-<wire x1="172.72" y1="20.875928125" x2="172.72" y2="15.24" width="0.1524" layer="91"/>
+<wire x1="172.72" y1="23.415928125" x2="172.72" y2="15.24" width="0.1524" layer="91"/>
 <pinref part="C8" gate="G$1" pin="1"/>
 <wire x1="172.72" y1="15.24" x2="180.34" y2="15.24" width="0.1524" layer="91"/>
 <wire x1="172.72" y1="15.24" x2="172.72" y2="2.54" width="0.1524" layer="91"/>
