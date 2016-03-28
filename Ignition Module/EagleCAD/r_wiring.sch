@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE eagle SYSTEM "eagle.dtd">
-<eagle version="7.4.0">
+<eagle version="7.5.0">
 <drawing>
 <settings>
 <setting alwaysvectorfont="no"/>
@@ -21926,14 +21926,14 @@ http://dangerousprototypes.com</description>
 <part name="C1" library="rcl" deviceset="C-EU" device="C1206" value="1u/100V"/>
 <part name="C5" library="rcl" deviceset="C-EU" device="C1206" value="0.47u/100V"/>
 <part name="C3" library="rcl" deviceset="C-EU" device="C1206" value="6.8n/400V"/>
-<part name="C8" library="rcl" deviceset="C-EU" device="C1206" value="680p/400V"/>
-<part name="C9" library="rcl" deviceset="C-EU" device="C1206" value="10n/160V"/>
+<part name="C9" library="rcl" deviceset="C-EU" device="C1206" value="680p/400V"/>
+<part name="C8" library="rcl" deviceset="C-EU" device="C1206" value="10n/160V"/>
 <part name="R16" library="rcl" deviceset="R-EU_" device="R2512" value="100"/>
 <part name="R22" library="rcl" deviceset="R-EU_" device="R2512" value="10k"/>
 <part name="R19" library="rcl" deviceset="R-EU_" device="R2512" value="15k"/>
 <part name="T4" library="transistor" deviceset="*-PNP-" device="SOT23-BCE" value="ZXTP2041F"/>
-<part name="D1" library="diode" deviceset="DIODE-" device="SOD123" value="BYG20D"/>
-<part name="D8" library="diode" deviceset="DIODE-" device="SOD123" value="BYG20D"/>
+<part name="D1" library="diode" deviceset="DIODE-" device="SOD123" value="1N4148"/>
+<part name="D8" library="diode" deviceset="DIODE-" device="SOD123" value="1N4148"/>
 <part name="D7" library="diode" deviceset="DIODE-" device="DO214AC" value="BYG20D"/>
 <part name="D6" library="diode" deviceset="DIODE-" device="SOD123" value="1N4148"/>
 <part name="D5" library="diode" deviceset="DIODE-" device="SOD123" value="1N4148"/>
@@ -21948,8 +21948,7 @@ http://dangerousprototypes.com</description>
 <part name="R8" library="resistor" deviceset="R-EU_" device="R2512" value="5.6k"/>
 <part name="R7" library="resistor" deviceset="R-EU_" device="R2512" value="10k"/>
 <part name="R5" library="resistor" deviceset="R-EU_" device="R2512" value="560"/>
-<part name="R2" library="resistor" deviceset="R-EU_" device="R2512" value="24k"/>
-<part name="R3" library="resistor" deviceset="R-EU_" device="R2512" value="41.2k"/>
+<part name="R2" library="resistor" deviceset="R-EU_" device="R2512" value="15.4k"/>
 <part name="R4" library="resistor" deviceset="R-EU_" device="R2512" value="3.3k"/>
 <part name="R6" library="resistor" deviceset="R-EU_" device="R2512" value="150"/>
 <part name="R9" library="resistor" deviceset="R-EU_" device="R2512" value="1.5k"/>
@@ -21999,8 +21998,8 @@ Transistorized Ignition Module</text>
 <instance part="C1" gate="G$1" x="193.04" y="86.36"/>
 <instance part="C5" gate="G$1" x="76.2" y="55.88" rot="R270"/>
 <instance part="C3" gate="G$1" x="15.24" y="7.62" rot="R180"/>
-<instance part="C8" gate="G$1" x="182.88" y="15.24" rot="R90"/>
-<instance part="C9" gate="G$1" x="139.7" y="86.36"/>
+<instance part="C9" gate="G$1" x="182.88" y="15.24" rot="R90"/>
+<instance part="C8" gate="G$1" x="139.7" y="86.36"/>
 <instance part="R16" gate="G$1" x="154.94" y="5.08" rot="R270"/>
 <instance part="R22" gate="G$1" x="172.72" y="81.28" rot="R90"/>
 <instance part="R19" gate="G$1" x="139.7" y="35.56" rot="R180"/>
@@ -22022,7 +22021,6 @@ Transistorized Ignition Module</text>
 <instance part="R7" gate="G$1" x="45.72" y="38.1" rot="R90"/>
 <instance part="R5" gate="G$1" x="38.1" y="63.5" rot="R90"/>
 <instance part="R2" gate="G$1" x="27.94" y="63.5" rot="R90"/>
-<instance part="R3" gate="G$1" x="17.78" y="63.5" rot="R90"/>
 <instance part="R4" gate="G$1" x="7.62" y="25.4" rot="R180"/>
 <instance part="R6" gate="G$1" x="58.42" y="10.16" rot="R270"/>
 <instance part="R9" gate="G$1" x="58.42" y="63.5" rot="R270"/>
@@ -22190,16 +22188,13 @@ Transistorized Ignition Module</text>
 <wire x1="-7.62" y1="66.04" x2="-7.62" y2="68.58" width="0.1524" layer="91"/>
 <pinref part="C2" gate="G$1" pin="+"/>
 <wire x1="-7.62" y1="68.58" x2="2.54" y2="68.58" width="0.1524" layer="91"/>
-<pinref part="R3" gate="G$1" pin="2"/>
-<wire x1="2.54" y1="68.58" x2="17.78" y2="68.58" width="0.1524" layer="91"/>
+<wire x1="2.54" y1="68.58" x2="27.94" y2="68.58" width="0.1524" layer="91"/>
 <pinref part="R2" gate="G$1" pin="2"/>
-<wire x1="17.78" y1="68.58" x2="27.94" y2="68.58" width="0.1524" layer="91"/>
 <pinref part="R5" gate="G$1" pin="2"/>
 <wire x1="27.94" y1="68.58" x2="38.1" y2="68.58" width="0.1524" layer="91"/>
 <pinref part="R9" gate="G$1" pin="1"/>
 <wire x1="38.1" y1="68.58" x2="58.42" y2="68.58" width="0.1524" layer="91"/>
 <junction x="2.54" y="68.58"/>
-<junction x="17.78" y="68.58"/>
 <junction x="27.94" y="68.58"/>
 <junction x="38.1" y="68.58"/>
 <junction x="58.42" y="68.58"/>
@@ -22212,14 +22207,9 @@ Transistorized Ignition Module</text>
 </net>
 <net name="N$10" class="0">
 <segment>
-<pinref part="R3" gate="G$1" pin="1"/>
-<wire x1="17.78" y1="58.42" x2="17.78" y2="55.88" width="0.1524" layer="91"/>
-<wire x1="17.78" y1="55.88" x2="27.94" y2="55.88" width="0.1524" layer="91"/>
 <pinref part="R2" gate="G$1" pin="1"/>
-<wire x1="27.94" y1="55.88" x2="27.94" y2="58.42" width="0.1524" layer="91"/>
 <pinref part="D3" gate="G$1" pin="A"/>
-<wire x1="27.94" y1="55.88" x2="27.94" y2="50.8" width="0.1524" layer="91"/>
-<junction x="27.94" y="55.88"/>
+<wire x1="27.94" y1="58.42" x2="27.94" y2="50.8" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="N$7" class="0">
@@ -22283,7 +22273,7 @@ Transistorized Ignition Module</text>
 <wire x1="111.76" y1="76.2" x2="111.76" y2="68.58" width="0.1524" layer="91"/>
 <pinref part="T4" gate="G$1" pin="B"/>
 <wire x1="111.76" y1="68.58" x2="139.7" y2="68.58" width="0.1524" layer="91"/>
-<pinref part="C9" gate="G$1" pin="2"/>
+<pinref part="C8" gate="G$1" pin="2"/>
 <wire x1="139.7" y1="68.58" x2="149.86" y2="68.58" width="0.1524" layer="91"/>
 <wire x1="139.7" y1="81.28" x2="139.7" y2="68.58" width="0.1524" layer="91"/>
 <junction x="111.76" y="68.58"/>
@@ -22306,7 +22296,7 @@ Transistorized Ignition Module</text>
 <wire x1="111.76" y1="86.36" x2="111.76" y2="93.98" width="0.1524" layer="91"/>
 <pinref part="R20" gate="G$1" pin="1"/>
 <wire x1="127" y1="86.36" x2="127" y2="93.98" width="0.1524" layer="91"/>
-<pinref part="C9" gate="G$1" pin="1"/>
+<pinref part="C8" gate="G$1" pin="1"/>
 <wire x1="139.7" y1="88.9" x2="139.7" y2="93.98" width="0.1524" layer="91"/>
 <junction x="139.7" y="93.98"/>
 <junction x="127" y="93.98"/>
@@ -22353,13 +22343,6 @@ Transistorized Ignition Module</text>
 <junction x="154.94" y="35.56"/>
 </segment>
 </net>
-<net name="N$18" class="0">
-<segment>
-<pinref part="R15" gate="G$1" pin="1"/>
-<pinref part="R16" gate="G$1" pin="1"/>
-<wire x1="154.94" y1="20.32" x2="154.94" y2="10.16" width="0.1524" layer="91"/>
-</segment>
-</net>
 <net name="N$19" class="1">
 <segment>
 <pinref part="D1" gate="G$1" pin="A"/>
@@ -22389,7 +22372,7 @@ Transistorized Ignition Module</text>
 <pinref part="R17" gate="G$1" pin="2"/>
 <wire x1="193.04" y1="68.58" x2="218.44" y2="68.58" width="0.1524" layer="91"/>
 <wire x1="172.72" y1="68.58" x2="172.72" y2="64.42654375" width="0.1524" layer="91"/>
-<pinref part="C8" gate="G$1" pin="2"/>
+<pinref part="C9" gate="G$1" pin="2"/>
 <pinref part="C7" gate="G$1" pin="1"/>
 <wire x1="187.96" y1="15.24" x2="193.04" y2="15.24" width="0.1524" layer="91"/>
 <wire x1="193.04" y1="15.24" x2="200.66" y2="15.24" width="0.1524" layer="91"/>
@@ -22424,12 +22407,18 @@ Transistorized Ignition Module</text>
 <segment>
 <pinref part="ZD5" gate="G$1" pin="A"/>
 <wire x1="172.72" y1="23.415928125" x2="172.72" y2="15.24" width="0.1524" layer="91"/>
-<pinref part="C8" gate="G$1" pin="1"/>
+<pinref part="C9" gate="G$1" pin="1"/>
 <wire x1="172.72" y1="15.24" x2="180.34" y2="15.24" width="0.1524" layer="91"/>
 <wire x1="172.72" y1="15.24" x2="172.72" y2="2.54" width="0.1524" layer="91"/>
 <pinref part="T5" gate="G$1" pin="B"/>
 <wire x1="172.72" y1="2.54" x2="187.96" y2="2.54" width="0.1524" layer="91"/>
 <junction x="172.72" y="15.24"/>
+<pinref part="R15" gate="G$1" pin="1"/>
+<pinref part="R16" gate="G$1" pin="1"/>
+<wire x1="154.94" y1="20.32" x2="154.94" y2="15.24" width="0.1524" layer="91"/>
+<wire x1="154.94" y1="15.24" x2="154.94" y2="10.16" width="0.1524" layer="91"/>
+<wire x1="172.72" y1="15.24" x2="154.94" y2="15.24" width="0.1524" layer="91"/>
+<junction x="154.94" y="15.24"/>
 </segment>
 </net>
 <net name="N$26" class="0">
