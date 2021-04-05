@@ -192,10 +192,8 @@ void enableServo() {
 }
 
 void pidSwitchToAuto() {
-  if (cruiseControlEnabled) {
-    speedController.setMode(PIDConfig::kModeAutomatic);
-    servoController.setMode(PIDConfig::kModeAutomatic);
-  }
+  speedController.setMode(PIDConfig::kModeAutomatic);
+  servoController.setMode(PIDConfig::kModeAutomatic);
 }
 
 void pidSwitchToManual() {
