@@ -1,5 +1,5 @@
 # WARNING
-This code is entirely experimental, and it's sole purpose is to demonstrate the capabilities of the Atmega4809 microcontroller, while solving a practical problem.
+This code is incomplete, entirely experimental, and it's sole purpose is to demonstrate the capabilities of the Atmega4809 microcontroller, while solving a practical problem.
 If you decided to use any part of this code in any way and for any purpose, you are doing so entirely at your own risk, 
 and acknowledge no responsibility on my part for any damage or harm to people or property.
 
