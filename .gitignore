@@ -1,3 +1,4 @@
 *.s#?
 *.b#?
+.DS_Store
 Ignition Module/Case/Thumbs.db
