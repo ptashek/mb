@@ -1,12 +1,12 @@
 # WARNING
 
-This code is **incomplete and entirely experimental**. It's sole purpose is to demonstrate the capabilities of the Atmega4809 microcontroller, while solving a practical problem. If you decided to use any part of this code in any way and for any purpose, you are doing so **entirely at your own risk**, and acknowledge no responsibility on my part for any damage or harm to anyone or anything.
+This code is **incomplete and entirely experimental**. It's sole purpose is to demonstrate the capabilities of the ATMega4809 microcontroller, while solving a practical problem. If you decided to use any part of this code in any way and for any purpose, you are doing so **entirely at your own risk**, and acknowledge no responsibility on my part for any damage or harm to anyone or anything.
 
 That's the "covering my ass" bit done.
 
 # Project description
 
-This project implements a cruise control (tempomat) controller that is supposed to be a drop-in replacement for the 14-pin VDO amplifiers found in many cars of the 1990s. It interfaced with an independent electro-mechanical servo, rather than electronic throttle actuators or vacuum actuators. An example of such system is the VDO Tempostat 83.601.
+This project implements a cruise control (tempomat) controller that is supposed to be a drop-in replacement for the 14-pin VDO control boxes, with coding plug, found in many cars of the 1990s. These systems interfaced with an independent electro-mechanical servo, rather than electronic throttle actuators or vacuum actuators. An example is the VDO Tempostat 83.601, and almost all Mercedes-Benz cruise control systems of the 1990s (see details in "System configuration" below).
 
 An earlier version of this project was tested in a W124 280TE, with passable results. As of April 2021, this version has also been tested with a W124 280TE and has achieved performance comparable with, and in some cases better than the original VDO units.
 
@@ -34,15 +34,15 @@ The system consists of three core elements:
 
 ### Speed sensor
 
-The current speed of the vehicle is fed to the control box by means of a hall sensor (A0075422917) mounted into the instrument cluster, just beside the spedometer. The speedometer has four magnets built in, which trigger the hall sensor whenever they pass nearby. The sensor is of a latching type, i.e. when turned on, it latches in the on state until a magnetic field of opposite direction is applied. In this configuration, there are two square wave pulses per each full revolution. The peak voltage of those pulses is battery voltage (VBatt). The pulses correspond to current speed in km/h at a ratio of 2:1, i.e. 10 pulses == 5km/h. This is the case both for units in mph and km/h, as the scaling for display is done through different gearing in the speedometer itself and does not affect this part.
+The current speed of the vehicle is fed to the control box by means of a hall sensor (A0075422917) mounted into the instrument cluster, just beside the speedometer. The speedometer has four magnets built in, which trigger the hall sensor whenever they pass nearby. The sensor is of a latching type, i.e. when turned on, it latches in the on state until a magnetic field of opposite direction is applied. In this configuration, there are two square wave pulses per each full revolution. The peak voltage of those pulses is battery voltage (VBatt). The pulses correspond to current speed in km/h at a ratio of 2:1, i.e. 10 pulses == 5km/h. This is the case both for units in mph and km/h, as the scaling for display is done through different gearing in the speedometer itself and does not affect this part.
 
-This also forces how speed calculation is done by the control box. With a non-latching sensor measuring the frequency and period between signal edges gives the best accuracy (the test bench version of this code uses this approach). With a latching sensor however, we have to fall back to counting the number of pulses in a fixed time window, which - at least when using the internal 32.768kHz ULP oscillator of the Atmega4809 as gate timer [1] - isn't very accurate, and requires filtering to smooth out the noise to where it does not affect controller performance.
+This also forces how speed calculation is done by the control box. With a non-latching sensor measuring the frequency and period between signal edges gives the best accuracy (the test bench version of this code uses this approach). With a latching sensor however, we have to fall back to counting the number of pulses in a fixed time window, which - at least when using the internal 32.768kHz ULP oscillator of the ATMega4809 as gate timer [1] - isn't very accurate, and requires filtering to smooth out the noise to where it does not affect controller performance.
 
 ### Control box
 
-The control box is the heart of the system. The 14-pin version, there is also a coding plug or "reference resistor". The exact purpose of this element is not fully known, however - given these control boxes were used on a varied range of vehicles, not only from Mercedes-Benz - it most likely configures core parameters of the system: expected number of pulses per distance unit, tuning of the control loop etc. This theory is supported by another universal product from VDO the "compact tempostat", which uses DIP switches instead.
+The control box is the heart of the system. The 14-pin version this project is concerned with has a secondary part referred to as "coding plug" or "reference resistor". The exact purpose of this element is not fully known, however - given these control boxes were used on a varied range of vehicles, not only from Mercedes-Benz - it most likely configures core parameters of the system: expected number of pulses per distance unit, tuning of the control loop etc. This theory is supported by another universal product from VDO the "compact tempostat", which uses DIP switches instead.
 
-There control box accepts several inputs:
+The control box accepts several inputs:
 
 - accel/decel/cancel/resume signal from the control stalk
 - "brakes applied" signal
@@ -76,7 +76,7 @@ The first “resume” part is on an uphill gradient, cresting the hill at about
 
 # References
 
-[1] See section 33.9 in [Atmega4809 datasheet](https://ww1.microchip.com/downloads/en/DeviceDoc/ATmega4808-09-DataSheet-DS40002173C.pdf)
+[1] See section 33.9 in [ATMega4809 datasheet](https://ww1.microchip.com/downloads/en/DeviceDoc/ATmega4808-09-DataSheet-DS40002173C.pdf)
 
 # LICENSE
 
