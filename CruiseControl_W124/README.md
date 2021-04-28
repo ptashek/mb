@@ -68,7 +68,9 @@ Position feedback is done via a 5kOhm potentiometer, which is unfortunately very
 # System performance
 
 **Current as of April 2021**
-The first “resume” part is on an uphill gradient, cresting the hill at about 2/3 of that segment. The second part is on a motorway.
+
+The first “resume” part is on an uphill gradient, cresting the hill at about 2/3 of that segment. The second part is on a motorway. The blue line is current speed (unfiltered), and orange is the reference speed (setpoint).
+
 ![Speed reference tracking](./images/speed_loop.png)
 ![Throttle response](./images/throttle_response.png)
 
@@ -78,7 +80,6 @@ The first “resume” part is on an uphill gradient, cresting the hill at about
 
 # LICENSE
 
-Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International
-CC BY-NC-SA 4.0
+Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0)
 
 https://creativecommons.org/licenses/by-nc-sa/4.0/
