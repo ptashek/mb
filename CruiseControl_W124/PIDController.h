@@ -19,7 +19,10 @@ namespace pid {
     public:
       void init(PIDConfig *kConfig, float *kInput, float *kSetPoint, float *kOutput);
       void setMode(PIDConfig::PIDFlagType mMode);
-      void compute();
+      void enableInputFilter(float kPrevInputRatio);
+      void disableInputFilter();
+
+      bool compute();
 
     private:
       void init();
@@ -28,14 +31,15 @@ namespace pid {
       float *mInput;
       float *mOutput;
       float *mSetPoint;
+      float mPrevInputRatio = 0;
+      float mCurInputRatio = 0;
 
       uint32_t lastTime;
       float lastInput;
       
-      float lastLastInput;
-
       float integrator;
       bool inAuto;
+      bool inputFilterEnabled = false;
   };
 }
 #endif

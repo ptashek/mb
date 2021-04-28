@@ -1,5 +1,10 @@
 /*
- * MIT license 
+ * Author: 
+ * Lukasz Szmit <ptashek@gmail.com>
+ * 
+ * License:
+ * Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International 
+ * CC BY-NC-SA 4.0
  * 
  * Tested exclusively on an Arduino Nano Every
  * This code is very specific to the MB W124 series of cars
@@ -42,7 +47,7 @@ using namespace pid;
 
 /*
  * RTC ticks per second
- * Assumes 32kHz RTC clock and /32 prescaler
+ * Assumes 32.768kHz RTC clock and /32 prescaler
  */
 #define CLOCK_TICKS_PER_SECOND (1024)
 /*
@@ -50,16 +55,6 @@ using namespace pid;
  */
 volatile uint32_t RTC_pit_counter = 0;
 uint32_t s_RTC_pit_counter = 0;
-
-/*
- * When using TCA clock with /64 default prescaler
- * TCB0 will reset after ~200ms if no edge is detected
- */
-#if F_CPU == 20000000L
-  #define TCB0_TIMEOUT_VALUE 0xefff
-#else 
-  #define TCB0_TIMEOUT_VALUE 0xbfff
-#endif
 
 /*
  * ADC sample accumulation and result bit shift value
@@ -108,37 +103,45 @@ class CruiseButtonConfig: public ButtonConfig {
           return 0;
 
         case ACCEL_BUTTON_PIN:
-          return bitRead(PORTA.IN, 1);
+          return bitRead(VPORTA.IN, 1);
 
         case DECEL_BUTTON_PIN:
-          return bitRead(PORTE.IN, 3);
+          return bitRead(VPORTE.IN, 3);
 
         case CANCEL_BUTTON_PIN:
-          return bitRead(PORTB.IN, 0);
+          return bitRead(VPORTB.IN, 0);
 
         case RESUME_BUTTON_PIN:
-          return bitRead(PORTB.IN, 1);
+          return bitRead(VPORTB.IN, 1);
       }
     }
 };
 
-// Sped controller config
-#define SPEED_SAMPLE_INTERVAL_SHIFT (1) // ~250ms
-#define SPEED_SAMPLE_INTERVAL (CLOCK_TICKS_PER_SECOND >> SPEED_SAMPLE_INTERVAL_SHIFT)
+#define SPEED_SAMPLE_INTERVAL (256) // ~250ms
 // 2km/h = 4Hz = 8 pulses / s
-#define SPEED_BUMP_PULSE_COUNT (8 >> SPEED_SAMPLE_INTERVAL_SHIFT)
-#define SPEED_PULSE_TOLERANCE (1)
-#define SPEED_PID_KP  (8.12)// proportional gain (22.0) 8.12
-#define SPEED_PID_KI  (1.3) // integral gain (0.25) 1.3
-#define SPEED_PID_KD  (2.6) // derivative gain (0) 2.6
+#define SPEED_BUMP_PULSE_COUNT (2)
+/*
+ * candidate gains:
+ *  14.78537775 / 1.41669 / 0 (perfect!, apr 27)
+ *  14.72979275 / 1.04208 / 0 (good, apr 26) 
+ *  15.505045 / 1.7368 / 0 (good, apr 26)
+ *  12.240825 / 0.4342 / 0 (too slow, apr 26)
+ *  16.3211 / 0.2171 / 0.010855 (jerky, apr 26)
+ *  16.3211 / 0.2171 / 0 (good, apr 26)
+ *  9.1473 / 1.25394 / 0 (too slow, apr 25)
+ *  6.0982 / 0.62697 / 0 (too slow)
+ */
+#define SPEED_PID_KP  (14.78537775) // proportional gain
+#define SPEED_PID_KI  (1.41669)  // integral gain
+#define SPEED_PID_KD  (0)       // derivative gain
 PIDController speedController;
 CruisePIDConfig speedPIDConfig;
 
-// Physical limits (arming + control, pulses/s)
-#define MINIMUM_SPEED (200 >> SPEED_SAMPLE_INTERVAL_SHIFT) // 50km/h
-#define MAXIMUM_SPEED (1000 >> SPEED_SAMPLE_INTERVAL_SHIFT) // 250km/h
+// Physical limits (arming + control, pulses/sample interval)
+#define MINIMUM_SPEED (40)  // ~50km/h
+#define MAXIMUM_SPEED (145) // ~180km/h
 #define THROTTLE_MIN (0)
-#define THROTTLE_MAX (100)
+#define THROTTLE_MAX (255)
 
 // Servo controller config
 #define SERVO_SAMPLE_INTERVAL (16) // ~15ms
@@ -174,30 +177,30 @@ bool cruiseControlEnabled = false;
 bool cruiseControlPausing = false;
 bool servoEnabled = false;
 
-AceButton accelButton, decelButton, cancelButton, resumeButton; //, brakeButton;
+AceButton accelButton, decelButton, cancelButton, resumeButton;
 CruiseButtonConfig* buttonConfig;
 
 void disableServo() {
   // SERVO_MOTOR_PWM off
-  PORTF.OUT &= ~PIN5_bm;
+  VPORTF.OUT &= ~PIN5_bm;
   // SERVO_DIRECTION_B off
-  PORTC.OUT &= ~PIN6_bm;
+  VPORTC.OUT &= ~PIN6_bm;
   // SERVO_DIRECTION_A off
-  PORTB.OUT &= ~PIN2_bm;
+  VPORTB.OUT &= ~PIN2_bm;
   // SERVO_CLUTCH off
-  PORTF.OUT &= ~PIN4_bm;
+  VPORTF.OUT &= ~PIN4_bm;
   servoEnabled = false;
 }
 
 void enableServo() {
   // SERVO_MOTOR_PWM off
-  PORTF.OUT &= ~PIN5_bm;
+  VPORTF.OUT &= ~PIN5_bm;
   // SERVO_DIRECTION_B off
-  PORTC.OUT &= ~PIN6_bm;
+  VPORTC.OUT &= ~PIN6_bm;
   // SERVO_DIRECTION_A off
-  PORTB.OUT &= ~PIN2_bm;
+  VPORTB.OUT &= ~PIN2_bm;
   // SERVO_CLUTCH on
-  PORTF.OUT |= PIN4_bm;
+  VPORTF.OUT |= PIN4_bm;
   servoEnabled = true;
 }
 
@@ -227,10 +230,8 @@ void resumeCruiseControl() {
     return;
   }
   
-  if (lastTargetSpeed >= MINIMUM_SPEED && lastTargetSpeed <= MAXIMUM_SPEED) {
-    targetSpeed = lastTargetSpeed;
-    enableCruiseControl();
-  }
+  targetSpeed = lastTargetSpeed;
+  enableCruiseControl();
 }
 
 void enableCruiseControl() {
@@ -248,6 +249,10 @@ void enableCruiseControl() {
 }
 
 void disableCruiseControl() {
+  if (!cruiseControlEnabled) {
+    return;
+  }
+  
   pidSwitchToManual();
   disableServo();
   lastTargetSpeed = targetSpeed;
@@ -269,13 +274,16 @@ void handleAccelButtonEvent(uint8_t eventType) {
   
   switch (eventType) {
     case AceButton::kEventReleased:
-      if (cruiseControlEnabled && (targetSpeed + SPEED_BUMP_PULSE_COUNT) < MAXIMUM_SPEED) {
+      if (cruiseControlEnabled && (targetSpeed + SPEED_BUMP_PULSE_COUNT) <= MAXIMUM_SPEED) {
         targetSpeed += SPEED_BUMP_PULSE_COUNT;
       }
       break;
 
     case AceButton::kEventLongPressed:
-      // TODO: accelerate-until-released
+      pidSwitchToManual();
+      enableServo();
+      servoTarget = throttleTargetToServoTarget(0.8 * THROTTLE_MAX);
+      servoPower = 225;
       break;
       
     case AceButton::kEventLongReleased:
@@ -293,13 +301,16 @@ void handleDecelButtonEvent(uint8_t eventType) {
   
   switch (eventType) {
     case AceButton::kEventReleased:
-      if (cruiseControlEnabled && (targetSpeed - SPEED_BUMP_PULSE_COUNT) > MINIMUM_SPEED) {
+      if (cruiseControlEnabled && (targetSpeed - SPEED_BUMP_PULSE_COUNT) >= MINIMUM_SPEED) {
         targetSpeed -= SPEED_BUMP_PULSE_COUNT;
       }
       break;
 
     case AceButton::kEventLongPressed:
-      // TODO: decelerate-until-released
+      pidSwitchToManual();
+      enableServo();
+      servoTarget = throttleTargetToServoTarget(0.2 * THROTTLE_MAX);
+      servoPower = 200;
       break;
       
     case AceButton::kEventLongReleased:
@@ -311,11 +322,11 @@ void handleDecelButtonEvent(uint8_t eventType) {
 }
 
 void handleCancelButtonEvent(uint8_t eventType) {
-  if (!cruiseControlEnabled) {
+  if (!cruiseControlEnabled || cruiseControlPausing) {
     return;
   }
   
-  if (eventType == AceButton::kEventReleased || eventType == AceButton::kEventLongReleased) {
+  if (eventType == AceButton::kEventPressed) {
       pauseCruiseControl();
   }
 }
@@ -437,7 +448,7 @@ void PORT_init() {
 void BUTTON_init() {
   buttonConfig = (CruiseButtonConfig*) CruiseButtonConfig::getSystemButtonConfig();
   buttonConfig->setDebounceDelay(16); // ~10ms
-  buttonConfig->setLongPressDelay(CLOCK_TICKS_PER_SECOND);
+  buttonConfig->setLongPressDelay(768); // ~750ms
   buttonConfig->setFeature(CruiseButtonConfig::kFeatureLongPress);
   buttonConfig->setFeature(CruiseButtonConfig::kFeatureSuppressAfterLongPress); 
   buttonConfig->setEventHandler(handleButtonEvent);
@@ -455,7 +466,8 @@ void SPEED_PID_init() {
   speedPIDConfig.setClockTicksPerSecond(CLOCK_TICKS_PER_SECOND);
   speedPIDConfig.setOutputLimits(0.2 * THROTTLE_MAX, THROTTLE_MAX);
   speedPIDConfig.setMode(PIDConfig::kModeManual);
-
+  
+  speedController.enableInputFilter(0.7);
   speedController.init(&speedPIDConfig, &currentSpeed, &targetSpeed, &throttleTarget);
 }
 
@@ -606,14 +618,14 @@ ISR(ADC0_RESRDY_vect) {
 }
 
 ISR(PORTE_PORT_vect) {
-  if (PORTE.INTFLAGS & PIN1_bm) {
-    PORTE.INTFLAGS |= PIN1_bm;
-    seenSpeedPulses++;
-  } 
-  
-  if (PORTE.INTFLAGS & PIN0_bm) {
-    PORTE.INTFLAGS |= PIN0_bm;
+  if (VPORTE.INTFLAGS & PIN0_bm) {
+    VPORTE.INTFLAGS |= PIN0_bm;
     disableCruiseControl();
+  }
+  
+  if (VPORTE.INTFLAGS & PIN1_bm) {
+    VPORTE.INTFLAGS |= PIN1_bm;
+    seenSpeedPulses++;
   }
 }
 
@@ -683,13 +695,17 @@ void report() {
 }
 #endif
 
+float throttleTargetToServoTarget(float throttlePosition) {
+  return trunc((((THROTTLE_MAX - THROTTLE_MIN) - throttlePosition) + THROTTLE_MIN)/((THROTTLE_MAX - THROTTLE_MIN)) * (SERVO_POSITION_IDLE - SERVO_POSITION_FULL)) + SERVO_POSITION_FULL;
+}
+
 void runServo(float fromPosition, float toPosition, float motorPWM) {
   int positionError = int(fromPosition) - int(toPosition);
   int pwmValue = max(SERVO_MIN_PWM_VALUE, abs(int(motorPWM)));
 
   if (positionError < -SERVO_POSITION_TOLERANCE) {
-    PORTC.OUT |= PIN6_bm;  // B on
-    PORTB.OUT &= ~PIN2_bm; // A off
+    VPORTC.OUT |= PIN6_bm;  // B on
+    VPORTB.OUT &= ~PIN2_bm; // A off
 
     // Run motor
     pwmWrite(pwmValue);
@@ -697,8 +713,8 @@ void runServo(float fromPosition, float toPosition, float motorPWM) {
   } 
 
   if (positionError > SERVO_POSITION_TOLERANCE) {   
-    PORTC.OUT &= ~PIN6_bm;  // B off
-    PORTB.OUT |= PIN2_bm;   // A on
+    VPORTC.OUT &= ~PIN6_bm;  // B off
+    VPORTB.OUT |= PIN2_bm;   // A on
    
     // Run motor
     pwmWrite(pwmValue);
@@ -706,9 +722,9 @@ void runServo(float fromPosition, float toPosition, float motorPWM) {
   } 
 
   // Hold position
-  PORTF.OUT &= ~PIN5_bm; // motor off
-  PORTC.OUT |= PIN6_bm;  // B on
-  PORTB.OUT |= PIN2_bm;  // A on
+  VPORTF.OUT &= ~PIN5_bm; // motor off
+  VPORTC.OUT |= PIN6_bm;  // B on
+  VPORTB.OUT |= PIN2_bm;  // A on
 }
 
 void setup() {  
@@ -724,11 +740,11 @@ void setup() {
   seenSpeedPulses = 0;
 
   ATOMIC_BLOCK(ATOMIC_RESTORESTATE) {
+    PORT_init();
     WDT_init();
     EVSYS_init();
     RTC_init();
     TCB1_init();
-    PORT_init();
     ADC_init();
   }
 
@@ -747,9 +763,7 @@ void loop() {
   static bool s_sampleSpeed = false;
   static uint32_t s_seenSpeedPulses = 0;
 
-  #ifdef DEBUG_MODE
-    report();
-  #endif
+  checkButtons();
 
   // Disable interrupts, sample volatile data, restore state
   ATOMIC_BLOCK(ATOMIC_RESTORESTATE) {
@@ -767,8 +781,6 @@ void loop() {
   if (s_sampleSpeed) {
     currentSpeed = (float) s_seenSpeedPulses;
   }
-
-  checkButtons();
   
   /* 
    * Arm the system only above/below the minimum/maximum speed.
@@ -777,12 +789,19 @@ void loop() {
    */
   systemArmed = (currentSpeed >= MINIMUM_SPEED) && (currentSpeed <= MAXIMUM_SPEED);
 
+  #ifdef DEBUG_MODE
+    report();
+  #endif
+
   if (!systemArmed) {
     if (cruiseControlEnabled) {
       pauseCruiseControl();
     }
-    wdt_reset();
-    return;
+
+    if (!cruiseControlPausing) {
+      wdt_reset();
+      return;
+    }
   }
 
   if (cruiseControlPausing && s_servoPosition >= SERVO_POSITION_PARK) {
@@ -793,13 +812,9 @@ void loop() {
   }
     
   if (cruiseControlEnabled) {
-    // sometimes we miss an edge due to poor clock precision
-    if (abs(targetSpeed - currentSpeed) <= SPEED_PULSE_TOLERANCE) {
-      currentSpeed = targetSpeed;
-    }
     speedController.compute();
     // invert throttle input and re-map to servo range
-    servoTarget = trunc((((THROTTLE_MAX - THROTTLE_MIN) - throttleTarget) + THROTTLE_MIN)/((THROTTLE_MAX - THROTTLE_MIN)) * (SERVO_POSITION_IDLE - SERVO_POSITION_FULL)) + SERVO_POSITION_FULL;
+    servoTarget = throttleTargetToServoTarget(throttleTarget);
     servoController.compute();
   } 
 

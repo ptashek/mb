@@ -27,55 +27,43 @@ namespace pid {
       float outMin = mConfig->getOutputMinLimit();
       float outMax = mConfig->getOutputMaxLimit();
 
-      integrator = *mOutput;
+      integrator = constrain(*mOutput, outMin, outMax);
       lastInput = *mInput;
-
-      if (integrator > outMax) {
-        integrator = outMax;
-      } else if (integrator < outMin) {
-        integrator = outMin;
-      }
     }
   
-    void PIDController::compute() {
-      if (!inAuto) return;
+    bool PIDController::compute() {
+      if (!inAuto) return false;
 
       uint32_t now = mConfig->getClock();
       uint32_t timeChange = (now - lastTime);
 
       if (timeChange < mConfig->getSampleTime()) {
-        return;
+        return false;
       }
 
       float outMin = mConfig->getOutputMinLimit();
       float outMax = mConfig->getOutputMaxLimit();
 
+      float input;
+
+      if (inputFilterEnabled) {
+        input = mPrevInputRatio * lastInput + mCurInputRatio * *mInput;
+      } else {
+        input = *mInput;
+      }
       
-      float input = *mInput;
       float error = *mSetPoint - input;
       float dInput = (input - lastInput);
-      
-      integrator += mConfig->getKi() * error;
 
-      if (integrator > outMax) {
-        integrator = outMax;
-      } else if (integrator < outMin) {
-        integrator = outMin;
-      }
-
-      float output = mConfig->getKp() * error + integrator - mConfig->getKd() * dInput;
-
-      if (output > outMax) { 
-        output = outMax;
-      } else if (output < outMin) {
-        output = outMin;
-      }
+      integrator = constrain(integrator + mConfig->getKi() * error, outMin, outMax);
+      float output = constrain(mConfig->getKp() * error + integrator - mConfig->getKd() * dInput, outMin, outMax);
 
       *mOutput = output;
 
-      lastLastInput = lastInput;
       lastInput = input;
       lastTime = now;
+
+      return true;
     }
 
     void PIDController::setMode(PIDConfig::PIDFlagType mMode) {
@@ -90,4 +78,21 @@ namespace pid {
       inAuto = newAuto;
       mConfig->setMode(mMode);
     }
+
+   void PIDController::enableInputFilter(float kPrevInputRatio) {
+    if (kPrevInputRatio < 1) {
+      mPrevInputRatio = kPrevInputRatio;
+      mCurInputRatio = 1 - kPrevInputRatio;
+      inputFilterEnabled = true;
+    } else {
+      inputFilterEnabled = false;
+    }
+   }
+
+   void PIDController::disableInputFilter() {
+    inputFilterEnabled = false;
+    mPrevInputRatio = 0;
+    mCurInputRatio = 0;
+   }
+
 }

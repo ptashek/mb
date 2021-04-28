@@ -1,3 +1,12 @@
+/*
+ * Author: 
+ * Lukasz Szmit <ptashek@gmail.com>
+ * 
+ * License:
+ * Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International 
+ * CC BY-NC-SA 4.0
+ * 
+ */
 #ifndef PID_CONFIG_LIBRARY_H
 #define PID_CONFIG_LIBRARY_H
 
