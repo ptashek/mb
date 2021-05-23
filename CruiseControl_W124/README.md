@@ -29,7 +29,7 @@ We're dealing with the first type here exclusively. I'm not aware of any project
 The system consists of three core elements:
 
 - speed sensor
-- cruise control box (often called "amplifier", which it really isn't)
+- cruise control box / amplifier
 - servo actuator
 
 ### Speed sensor
@@ -40,7 +40,7 @@ This also forces how speed calculation is done by the control box. With a non-la
 
 ### Control box
 
-The control box is the heart of the system. The 14-pin version this project is concerned with has a secondary part referred to as "coding plug" or "reference resistor". The exact purpose of this element is not fully known, however - given these control boxes were used on a varied range of vehicles, not only from Mercedes-Benz - it most likely configures core parameters of the system: expected number of pulses per distance unit, tuning of the control loop etc. This theory is supported by another universal product from VDO the "compact tempostat", which uses DIP switches instead.
+The control box is the heart of the system. The 14-pin version this project is concerned with has a secondary part referred to as "coding plug" or "reference resistor". The exact purpose of this element is not fully known, however - given these control boxes were used on a varied range of vehicles, not only from Mercedes-Benz - it most likely configures core parameters of the system: expected number of pulses per distance unit, tuning of the control loop etc. This is supported by vague remarks in WIS 30-5xx, and the original PCB layout. Another universal product from VDO the "[compact tempostat](http://oldhymer.com/wp-content/uploads/VDOCruiseControl.pdf)" uses DIP switches for the same purpose.
 
 The control box accepts several inputs:
 
@@ -63,7 +63,7 @@ The "brakes applied" input must sense ground for the system to remain engaged. W
 
 The servo actuator is as an electro-mechanical DC servo, with position feedback through a potentiometer. It also has a built-in safety mechanism, by means of a solenoid control clutch which, when enabled, meshes the motor gear with the actuator gears. The current servo position can be overriden by the driver pressing the throttle pedal. The clutch is engaged by the control box, but disengaged only by the brake pedal being applied, or ignition being turned off.
 
-Position feedback is done via a 5kOhm potentiometer, which is unfortunately very noisy. You will notice that I have dropped the resolution of the ADC in my code to 8-bit (0-255), instead of 10-bit (0-1024) and enabled oversampling and random sampling delay. This was done based on test results from the first version of this code, where positioning the servo reliably was almost impossible due to noise. There is however enough room in the housing to embed a more accurate encoder (future project, maybe...).
+Position feedback is done via a 5kOhm potentiometer, which is unfortunately very noisy. You will notice that I have dropped the resolution of the ADC in my code to 8-bit (0-255), instead of 10-bit (0-1023) and enabled oversampling and random sampling delay. This was done based on test results from the first version of this code, where positioning the servo reliably was almost impossible due to noise. There is however enough room in the housing to embed a more accurate encoder (future project, maybe...).
 
 # System performance
 
