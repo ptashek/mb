@@ -34,13 +34,16 @@ The system consists of three core elements:
 
 ### Speed sensor
 
-The current speed of the vehicle is fed to the control box by means of a hall sensor (A0075422917) mounted into the instrument cluster, just beside the speedometer. The speedometer has four magnets built in, which trigger the hall sensor whenever they pass nearby. The sensor is of a latching type, i.e. when turned on, it latches in the on state until a magnetic field of opposite direction is applied. In this configuration, there are two square wave pulses per each full revolution. The peak voltage of those pulses is battery voltage (VBatt). The pulses correspond to current speed in km/h at a ratio of 2:1, i.e. 10 pulses == 5km/h. This is the case both for units in mph and km/h, as the scaling for display is done through different gearing in the speedometer itself and does not affect this part.
+The current speed of the vehicle is fed to the control box by means of a hall sensor (A0075422917) mounted into the instrument cluster, just beside the speedometer. The speedometer has twelve-pole magnet built in, which triggers the hall sensor. The sensor is of a latching type, i.e. when turned on, it latches in the on state until a magnetic field of opposite direction is applied. In this configuration, there are six square wave pulses per each full revolution of the speedometer cable. The peak voltage of those pulses is battery voltage (VBatt). There are 8579 pulses per kilometer ("K" number from VDO 519.201/7/03 reference resistor). This is the case both for speedometers scaled in mph and km/h. At 50km/h (31mph) there will be 119 pulses/s; the ratio is 1:2.38.
 
 This also forces how speed calculation is done by the control box. With a non-latching sensor measuring the frequency and period between signal edges gives the best accuracy (the test bench version of this code uses this approach). With a latching sensor however, we have to fall back to counting the number of pulses in a fixed time window, which - at least when using the internal 32.768kHz ULP oscillator of the ATMega4809 as gate timer [1] - isn't very accurate, and requires filtering to smooth out the noise to where it does not affect controller performance.
 
+
+![Hall sensor reference](./images/A0075422917.jpg)
+
 ### Control box
 
-The control box is the heart of the system. The 14-pin version this project is concerned with has a secondary part referred to as "coding plug" or "reference resistor". The exact purpose of this element is not fully known, however - given these control boxes were used on a varied range of vehicles, not only from Mercedes-Benz - it most likely configures core parameters of the system: expected number of pulses per distance unit, tuning of the control loop etc. This is supported by vague remarks in WIS 30-5xx, and the original PCB layout. Another universal product from VDO the "[compact tempostat](http://oldhymer.com/wp-content/uploads/VDOCruiseControl.pdf)" uses DIP switches for the same purpose.
+The control box is the heart of the system. The 14-pin version this project is concerned with has a secondary part referred to as "coding plug" or "reference resistor". The exact purpose of this element is not fully known, however - given these control boxes were used on a varied range of vehicles, not only from Mercedes-Benz - it most likely configures core parameters of the system: expected number of pulses per distance unit, tuning of the control loop etc. This is supported by vague remarks in WIS 30-5xx, and the original PCB layout. Another universal product from VDO the "[compact tempostat](http://oldhymer.com/wp-content/uploads/VDOCruiseControl.pdf)" uses DIP switches for the same purpose. The reference resistor contains [four to six resistors](./images/coding_plug.png) in a [specific range of values](./images/coding_plug_values.png) for each version of the part. The six terminals can be traced to inputs of the LM2901 quad-comparator and a couple pins on the TMAT-724 chip.
 
 The control box accepts several inputs:
 
@@ -64,6 +67,14 @@ The "brakes applied" input must sense ground for the system to remain engaged. W
 The servo actuator is as an electro-mechanical DC servo, with position feedback through a potentiometer. It also has a built-in safety mechanism, by means of a solenoid control clutch which, when enabled, meshes the motor gear with the actuator gears. The current servo position can be overriden by the driver pressing the throttle pedal. The clutch is engaged by the control box, but disengaged only by the brake pedal being applied, or ignition being turned off.
 
 Position feedback is done via a 5kOhm potentiometer, which is unfortunately very noisy. You will notice that I have dropped the resolution of the ADC in my code to 8-bit (0-255), instead of 10-bit (0-1023) and enabled oversampling and random sampling delay. This was done based on test results from the first version of this code, where positioning the servo reliably was almost impossible due to noise. There is however enough room in the housing to embed a more accurate encoder (future project, maybe...).
+
+# Harwdware
+Latest version of the schematic of the control box can be found [here](https://github.com/ptashek/mb/tree/master/CruiseControl_W124/schematic/). Detailed BOM will be made available once I'm happy with the selected parts. The hardware portion is work in progress, and errors/omissions should be expected.
+
+**Note:** PCB fabrication files will not be published.
+
+# Software
+Each software revision is tightly coupled to a specific version of the hardware. They will be published in tandem.
 
 # System performance
 
